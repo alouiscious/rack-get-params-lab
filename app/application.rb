@@ -1,3 +1,5 @@
+require 'pry'
+
 class Application
 
   @@items = ["Apples","Carrots","Pears"]
@@ -18,10 +20,12 @@ class Application
       resp.write "Your cart is empty." if @@cart.empty?
       resp.write @@cart.join("\n")
     elsif req.path.match(/add/)
-      if @@items.include?[params:item]
-        @@cart << item
+      add_item = req.params["item"]
+      if @@items.include? add_item
+        @@cart << add_item
+        resp.write "#{add_item} was added to your cart."
       else
-          resp.write "This item is not available."
+        resp.write "Sorry, we don't have that item"
       end
     elsif req.path == "/"
       resp.write "<h1>Welcome Home!!!</h1>"
